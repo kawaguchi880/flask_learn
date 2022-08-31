@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Sample site</title>
+    <link href="{{ url_for('sampleSite.static',filename='css/index.css')}}" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="header">
+        <h1>
+            Sample site!
+
+        </h1>
+        <table>
+            <tr>
+                <th><label>URL</label></th>
+                <td><label>{{url_for(request.endpoint)}}</label></td>
+            </tr>
+            <tr>
+                <th><label>ID</label></th>
+                <td><label>{{data.id}}</label></td>
+            </tr>
+            <tr>
+                <th><label>name</label></th>
+                <td><label>{{data.name}}</label></td>
+            </tr>
+        </table>
+        <a href="/page2">page2へ</a>
+        <a href="/wiki">wikiへ</a>
+        <a href="/study">study</a>
+    </div>
+</body>
+
+</html>
