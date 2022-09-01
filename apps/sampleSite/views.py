@@ -1,7 +1,9 @@
 from random import sample
 from flask import Blueprint, render_template
 from apps.sampleSite.forms import KweetForm
-
+from apps.sampleSite.forms import jankennForm
+from apps.sampleSite.forms import taipinnguForm
+import random
 sampleSite = Blueprint(
     "sampleSite",
     __name__,
@@ -12,14 +14,17 @@ sampleSite = Blueprint(
 
 
 messageList = []
-@sampleSite.route('/',methods = [" GET","POST"])
+@sampleSite.route('/',methods = ["GET","POST"])
 def index():
     form = KweetForm()
+    # 変数formにform.pyに定義しておいたKweetFormというclassを作る
+    # FlaskFormクラスを継承したKweetFormクラス内にあったis_submittedメソッドを実行
     if form.is_submitted():
         print("submit!")
         message = form.message.data or ''
         if message != '':
             messageList.append(message)
+        # メッセージが空白出ないのならmessageListに追加
 
 
     dbData = {
@@ -39,7 +44,69 @@ def page2():
 @sampleSite.route('/wiki')
 def page3():
     return render_template("wiki.html")
+@sampleSite.route('/application1')
+def app1():
+    return render_template("application1.html")
 
+@sampleSite.route('/application2',methods = ["GET","POST"])
+def app2():
+    result="引き分け"
+    form = jankennForm()
+    # 変数formにform.pyに定義しておいたKweetFormというclassを作る
+    # FlaskFormクラスを継承したKweetFormクラス内にあったis_submittedメソッドを実行
+    if form.is_submitted():
+        print("submit!")
+        choice = form.choice.data
+        m = random.randint(0,2)
+    
+        if(choice == "グー"):
+            p=0
+        elif(choice == "ちょき"):
+            p=1
+        elif(choice == "ぱー"):
+            p=2
+        
+        i = (p-m) % 3
+        if i == 0:
+        #drawの場合
+            result = "引き分け"
+        elif i == 1:
+        #loseの場合
+            result = "勝ち"
+        else:
+        #winの場合
+            result = "負け"
+
+    dbData = {
+        "form": form,
+        "result":result
+    }
+
+    return render_template("application2.html",data=dbData)
+
+@sampleSite.route('/application3',methods = ["GET","POST"])
+def app3():
+    score = 0
+    questionData=[
+        "開発","レンダー","アマゾンWebサービス"
+    ]
+    form = taipinnguForm()
+    if form.is_submitted():
+        print("submit!")
+        answer = form.taipunngu.data
+        if(answer==question):
+            score +=1
+
+    m = random.randint(0,2)
+    question = questionData[m]
+
+    dbData={
+        "question":question,
+        "score":score
+    }
+
+
+    return render_template("application3.html",data=dbData)
 @sampleSite.route('/study')
 def study():
     # 標準出力で表示
