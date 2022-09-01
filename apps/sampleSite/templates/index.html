@@ -25,6 +25,18 @@
                 <td><label>{{data.name}}</label></td>
             </tr>
         </table>
+
+        <form method="post">
+            {{data.form.csrf_token}}
+            <input type="text" name="message"/>
+            <input type="submit" value="つぶやく"/>
+        </form>
+
+
+        {% for message in data.messageList %}
+        <hr />
+        {{message}}<br\>
+        {%endfor%}
         <a href="/page2">page2へ</a>
         <a href="/wiki">wikiへ</a>
         <a href="/study">study</a>

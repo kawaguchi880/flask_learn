@@ -2,72 +2,73 @@ body {
     margin: 0;
     }
     
-    .header {
-        background-color: #66cdaa;
-        padding: 1em;
+.header {
+    background-color: #66cdaa;
+    padding: 1em;
+}
+
+h1 {
+    color: #ffffff;
+    font-size: 3em;
+    margin: 0em;
+}
+
+th {
+    text-align: left;
+    padding: 0em 1em 0em 1em;
+}
+
+th > label, td > label {
+    color: #ffffff;
+}
+
+
+.logo {
+    margin-right: 30px
+  }
+
+.wordmark {
+    display: block;
+  }
+
+.wikiLogo {
+    float: left;
+    display: flex;
+    align-items: center;
+  }
+
+.searchimg {
+    margin-top: 35px;
+  }
+
+.h1-text {
+    border-bottom: 1px solid;
+    float: left;
+  }
+
+.account {
+    margin-top: 35px;
+  }
+
+a {text-decoration:none;}
+    a:link {
+        color: blue;
+        text-decoration: none;
+    }
+    a:visited {
+        color: blue;
+        text-decoration: none;
+    }
+    a:hover {
+        color: red;
+        background-color: lightgreen;
+    }
+    a:active {
+        color: red;
+        text-decoration: none
     }
 
-    h1 {
-        color: #ffffff;
-        font-size: 3em;
-        margin: 0em;
-    }
 
-    th {
-        text-align: left;
-        padding: 0em 1em 0em 1em;
-    }
-
-    th > label, td > label {
-        color: #ffffff;
-    }
-
-
-    .logo {
-        margin-right: 30px
-      }
-    
-    .wordmark {
-        display: block;
-      }
-    
-    .wikiのロゴ {
-        float: left;
-        display: flex;
-        align-items: center;
-      }
-    
-    .searchimg {
-        margin-top: 35px;
-      }
-    
-    .h1-text {
-        border-bottom: 1px solid;
-        float: left;
-      }
-    
-    .account {
-        margin-top: 35px;
-      }
-
-    a {text-decoration:none;}
-        a:link {
-            color: blue;
-            text-decoration: none;
-        }
-        a:visited {
-            color: blue;
-            text-decoration: none;
-        }
-        a:hover {
-            color: red;
-            background-color: lightgreen;
-        }
-        a:active {
-            color: red;
-            text-decoration: none
-        }
-    
 
 
     
