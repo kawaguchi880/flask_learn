@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+    <title>Sample Style</title>
+    <link href="{{url_for('sampleSite.static',filename='css/reserveList.css')}}" rel="stylesheet"/>
+</head>
+<body>
+    <div class="header">
+        <h1>予約リスト</h1>
+    </div>
+    <div class="reserve">
+        <table>
+            <tr>
+                <th>名前</th>
+                <th>開始</th>
+                <th>終了</th>
+                <th>個数</th>
+            </tr>
+            {% for reserve in reserveList %}
+            <tr>
+                <td>{{ reserve.name}}</td>
+                <td>{{ reserve.start_at}}</td>
+                <td>{{ reserve.end_at}}</td>
+                <td>{{ reserve.count}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <a href="/reserve">予約へ</a>
+</body>
+</html>

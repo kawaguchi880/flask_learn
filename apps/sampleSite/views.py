@@ -1,9 +1,10 @@
 from random import sample
 from flask import Blueprint, render_template
-from apps.sampleSite.forms import KweetForm
-from apps.sampleSite.forms import jankennForm
-from apps.sampleSite.forms import taipinnguForm
+from apps.sampleSite.forms import KweetForm,jankennForm,taipinnguForm,ReserveForm,KakeiboForm
+from apps.sampleSite.models import Kweet,Reserve,Kakeibo
+from apps.app import db
 import random
+
 sampleSite = Blueprint(
     "sampleSite",
     __name__,
@@ -12,8 +13,6 @@ sampleSite = Blueprint(
     static_url_path="static/sampleSite"
 )
 
-
-messageList = []
 @sampleSite.route('/',methods = ["GET","POST"])
 def index():
     form = KweetForm()
@@ -23,7 +22,9 @@ def index():
         print("submit!")
         message = form.message.data or ''
         if message != '':
-            messageList.append(message)
+            kweet = Kweet(message=message)
+            db.session.add(kweet)
+            db.session.commit()
         # メッセージが空白出ないのならmessageListに追加
 
 
@@ -31,7 +32,7 @@ def index():
         "id":123,
         "name":"name",
         "form": form,
-        "messageList":messageList
+        "kweetList":Kweet.query.all()
 
     }
 
@@ -41,9 +42,71 @@ def index():
 def page2():
     return render_template("page2.html")
 
-@sampleSite.route('/wiki')
-def page3():
-    return render_template("wiki.html")
+@sampleSite.route('/reserve',methods=["GET","POST"])
+def reserve():
+    reserveForm = ReserveForm()
+    reserved = False
+
+    if reserveForm.is_submitted():
+        name = reserveForm.name.data
+        startAt = reserveForm.startAt.data
+        endAt = reserveForm.endAt.data
+        count = reserveForm.count.data
+
+        reserve = Reserve(
+            name=name,
+            start_at=startAt,
+            end_at = endAt,
+            count=count
+        )
+
+        db.session.add(reserve)
+        db.session.commit()
+    return render_template("reserve.html",form=reserveForm,reserved=reserved)
+
+
+
+@sampleSite.route('/reserveList',methods=["GET"])
+def reserveList():
+    reserveList = Reserve.query.all()
+    print(reserveList)
+    return render_template("reserveList.html",reserveList=reserveList)
+
+
+@sampleSite.route('/kakeibo',methods=["GET","POST"])
+def kakeibo():
+    sum=0
+    kakeiboForm = KakeiboForm()
+    kakeiboed=False
+    kakeiboList={}
+    print("aaaa")
+
+    if kakeiboForm.is_submitted():
+        date = kakeiboForm.date.data
+        budget = kakeiboForm.budget.data
+        item = kakeiboForm.item.data
+        cost = kakeiboForm.cost.data
+        if (budget=="on"):
+            budget="支出"
+        print("aaa")
+        print(date)
+        print(budget)
+        print(item)
+        print(cost)
+
+        kakeibo = Kakeibo(
+            date=date,
+            budget=budget,
+            item = item,
+            cost=cost
+        )
+
+        db.session.add(kakeibo)
+        db.session.commit()
+        kakeiboList = kakeibo.query.all()
+    return render_template("kakeibo.html",form=kakeiboForm,kakeiboed=kakeiboed,kakeiboList=kakeiboList)
+
+
 @sampleSite.route('/application1')
 def app1():
     return render_template("application1.html")
@@ -58,14 +121,14 @@ def app2():
         print("submit!")
         choice = form.choice.data
         m = random.randint(0,2)
-    
+
         if(choice == "グー"):
             p=0
         elif(choice == "ちょき"):
             p=1
         elif(choice == "ぱー"):
             p=2
-        
+
         i = (p-m) % 3
         if i == 0:
         #drawの場合
@@ -87,25 +150,27 @@ def app2():
 @sampleSite.route('/application3',methods = ["GET","POST"])
 def app3():
     score = 0
+
     questionData=[
-        "開発","レンダー","アマゾンWebサービス"
+        "開発","レンダー","Webサービス","はじめまして","こんにちは","linux","nginx","flask"
     ]
     form = taipinnguForm()
+
     if form.is_submitted():
-        print("submit!")
+        prequestion = form.prequestion.data
         answer = form.taipunngu.data
-        if(answer==question):
+        score = form.score.data
+        if(answer==prequestion):
             score +=1
 
-    m = random.randint(0,2)
+    m = random.randint(0,len(questionData))
     question = questionData[m]
 
     dbData={
+        "form": form,
         "question":question,
         "score":score
     }
-
-
     return render_template("application3.html",data=dbData)
 @sampleSite.route('/study')
 def study():
@@ -160,7 +225,7 @@ def study():
             'Science':50,
             'Mathematics':30 ,
             'Physics':20 ,
-            'Design':90  
+            'Design':90
         }
 
     user2_data = {
@@ -169,7 +234,7 @@ def study():
             'Science':50,
             'Mathematics':90 ,
             'Physics':25 ,
-            'Design':90  
+            'Design':90
         }
 
     user3_data = {
@@ -178,7 +243,7 @@ def study():
             'Science':80,
             'Mathematics':30 ,
             'Physics':50 ,
-            'Design':20  
+            'Design':20
         }
 
     my_class = MyClass()
@@ -201,9 +266,9 @@ def study():
 
 
 
-        
 
-    
+
+
 
     return render_template("study.html",data = data)
 
@@ -216,7 +281,7 @@ class MyClass:
     # def __del__(self):
     #         print("デストラクタ!(なくてもいい)")
 
-    
+
     def __init__(self):
         self.users=[]
 
@@ -234,7 +299,7 @@ class MyClass:
         self.users.append(user)
         #  userの追加
         print(self.users)
-         
+
 
     def get_user_average(self,user_id):
         for user in self.users:
@@ -256,8 +321,3 @@ class MyClass:
     def get_subject_average(self,sum):
         average = sum/3
         return average
-
-
-
-
-        

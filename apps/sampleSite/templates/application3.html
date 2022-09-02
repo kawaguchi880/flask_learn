@@ -7,12 +7,15 @@
 </head>
 <body>
     <h1>タイピング</h1>
-    <div>{{}}</div>
+    <div>{{data.question}}</div>
     <form method="post">
         {{data.form.csrf_token}}
-        <input type="text" name="message"/>
+        <input type="text" name="taipunngu"/>
         <input type="submit" value="送信"/>
+        <input type="hidden" name ="prequestion" value={{data.question}}>
+        <input type="hidden" name ="score" value={{data.score}}>
     </form>
+    <div>スコア：{{data.score}}点</div>
     <a href="/">index.htmlへ</a>
 </body>
 </html>

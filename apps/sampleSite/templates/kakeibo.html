@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="header">
+        <h1>SampleSite!</h1>
+        <table>
+            <tr>
+                <th><label>URL:</label></th>
+                <td><label>/</label></td>
+            </tr>
+            <tr>
+                <th><label>name:</label></th>
+                <td><label>name</label></td>
+            </tr>
+            <tr>
+                <th><label>class:</label></th>
+                <td><label>アプリ開発口座</label></td>
+            </tr>
+        </table>
+    </div>
+    <form method="post">
+        <div class ="kakeibo">
+        {{form.csrf_token}}
+        <div>日付</div>
+        <input type="month" name="date"/>
+        <div>収入・支出</div>
+        <input type="radio" name= "budget" value="収入">
+        <input type="radio" name= "budget" value="支出">
+        </div>
+        <div>項目</div>
+        <input type="text" name="item">
+        <div>金額</div>
+        <input type="number" name ="cost">
+        <div class="button"><input type="submit" value="登録"></div>
+    </form>
+    <div class="kakeibo">
+    <table>
+        <tr>
+            <th>日付</th>
+            <th>収入・支出</th>
+            <th>項目</th>
+            <th>金額</th>
+        </tr>
+        {% for kakeibo in kakeiboList %}
+        <tr>
+            <td>{{ kakeibo.date}}</td>
+            <td>{{ kakeibo.budget}}</td>
+            <td>{{ kakeibo.item}}</td>
+            <td>{{ kakeibo.cost}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+
+    <a href="/">index.htmlへ</a>
+</body>
+</html>

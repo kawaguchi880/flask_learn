@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SampleSite</title>
+    <link href="{{ url_for('sampleSite.static',filename='css/reserve.css')}}" rel="stylesheet" />
+</head>
+<body>
+    <div class ="header">
+        <h1>予約</h1>
+    </div>
+    <form method="post">
+        {{form.csrf_token}}
+        <div class = "reserve">
+            <h3>予約登録</h3>
+            <table>
+                <tr>
+                    <th>予約者名</th>
+                    <td><input type="text" name="name"/></td>
+                </tr>
+                <tr>
+                    <th>開始日時</th>
+                    <td><input type="datetime-local"name="startAt"/></td>
+                </tr>
+                <tr>
+                    <th>終了日時</th>
+                    <td><input type="datetime-local"name="endAt"/></td>
+                </tr>
+                <tr>
+                    <th>人数</th>
+                    <td><input type="number"name="count"/></td>
+                </tr>
+            </table>
+            <div class="button"><input type="submit" value="予約"></div>
+        </div>
+    </form>
+    {% if reserved == True %}
+    <span>予約が完了しました</span>
+    {% endif %}
+    <a href="/reserveList">予約一覧へ</a>
+    <a href="/">index.htmlへ</a>
+</body>
+</html>

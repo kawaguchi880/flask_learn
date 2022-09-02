@@ -1,4 +1,7 @@
 {
     "python.pythonPath": "G:\\python_flask\\vscode\\Anaconda3\\envs\\env\\python.exe",
-    "emmet.triggerExpansionOnTab": true
+    "emmet.triggerExpansionOnTab": true,
+    "files.encoding": "utf8",
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true
 }
