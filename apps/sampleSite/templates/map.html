@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>map</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+  <!-- jquery -->
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+    integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <!-- slick -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+
+  <style>
+    #map {
+      height: 600px
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+  <br>
+  <h4>Slick</h4>
+  <div id="slick" style="width:500px;height: 250px;border: 1px solid gray;">
+    <div><img src="{{url_for('sampleSite.static',filename='media/01.jpg')}}" alt="1"></div>
+    <div><img src="{{url_for('sampleSite.static',filename='media/01.jpg')}}" alt="2"></div>
+    <div><img src="{{url_for('sampleSite.static',filename='media/01.jpg')}}" alt="3"></div>
+  </div>
+  <a href="/">index</a>
+  <script>
+    var mymap = L.map('map')
+
+    L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '<a href="https://maps.gsi.go.jp/development/ichiran.html"target="_blank">国土地理院</a>',
+    }).addTo(mymap);
+
+    mymap.setView([33.695221, 130.440875], 18);
+
+    var marker = L.marker([33.695221, 130.440875]).addTo(mymap);
+
+    marker.bindPopup("福岡工業大学");
+
+    $(window).on('load', () => {
+      $('#slick').slick();
+    })
+  </script>
+</body>
+
+</html>
