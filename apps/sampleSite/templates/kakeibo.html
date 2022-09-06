@@ -1,10 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </head>
+
 <body>
     <div class="header">
         <h1>SampleSite!</h1>
@@ -23,40 +36,79 @@
             </tr>
         </table>
     </div>
-    <form method="post">
-        <div class ="kakeibo">
-        {{form.csrf_token}}
-        <div>日付</div>
-        <input type="month" name="date"/>
-        <div>収入・支出</div>
-        <input type="radio" name= "budget" value="収入">
-        <input type="radio" name= "budget" value="支出">
+    <div class="container-fluid pt-3">
+        <form method="post">
+            <div class="row">
+                <div class="col-6"><b>日付</b></div>
+                <div class="col-6"><b>収入・支出</b></div>
+            </div>
+            <div class="row">
+                <div class="col-6"><input class="form-control" type="datetime-local" name="date"></div>
+                <div class="col-3"><label>収入</label><input type="radio" name="budget" value="収入"></div>
+                <div class="col-3"><label>支出</label><input type="radio" name="budget" value="支出"></div>
+            </div>
+            <div class="row">
+                <div class="col-6"><b>費用</b></div>
+                <div class="col-6"><b>金額</b></div>
+            </div>
+            <div class="row">
+                <div class="col-6"><input type="text" name="item"></div>
+                <div class="col-6"><input type="number" name="cost"></div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-12 text-right"><input class="btn btn-danger" type="submit" value="登録"></div>
+            </div>
+            {{form.csrf_token}}
+        </form>
+    </div>
+    <!-- <form method="post">
+        <div class="kakeibo">
+            {{form.csrf_token}}
+            <div class="row">日付</div>
+            <input type="month" name="date" />
+            <div>収入・支出</div>
+            <input type="radio" name="budget" value="収入">
+            <input type="radio" name="budget" value="支出">
         </div>
         <div>項目</div>
         <input type="text" name="item">
         <div>金額</div>
-        <input type="number" name ="cost">
+        <input type="number" name="cost">
         <div class="button"><input type="submit" value="登録"></div>
-    </form>
-    <div class="kakeibo">
-    <table>
-        <tr>
-            <th>日付</th>
-            <th>収入・支出</th>
-            <th>項目</th>
-            <th>金額</th>
-        </tr>
-        {% for kakeibo in kakeiboList %}
-        <tr>
-            <td>{{ kakeibo.date}}</td>
-            <td>{{ kakeibo.budget}}</td>
-            <td>{{ kakeibo.item}}</td>
-            <td>{{ kakeibo.cost}}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    </form> -->
+    <div class="container-fluid pt-3">
+        <div class="kakeibo">
+            <table class="table">
+                <tr>
+                    <th>日付</th>
+                    <th>収入・支出</th>
+                    <th>項目</th>
+                    <th>金額</th>
+                    <th>削除</th>
+                </tr>
+                {% for kakeibo in kakeiboList %}
+                <tr>
+                    <td>{{ kakeibo.date}}</td>
+                    <td>{{ kakeibo.budget}}</td>
+                    <td>{{ kakeibo.item}}</td>
+                    <td>{{ kakeibo.cost}}</td>
+                    <form action="/kakeiboDelection" method="post">
+                        {{form.csrf_token}}
+                        <td>
+                            <div class="button"><input type="hidden" value={{kakeibo.id}} name="item_id">
+                                <input type="submit" value="削除">
+                            </div>
+                        </td>
+                    </form>
 
-
-    <a href="/">index.htmlへ</a>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-12 text-right">合計金額:{{totalcost}}</div>
+        </div>
+        <a href="/">index.htmlへ</a>
 </body>
+
 </html>
