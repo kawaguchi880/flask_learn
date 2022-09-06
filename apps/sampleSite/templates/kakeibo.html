@@ -16,6 +16,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
 </head>
 
 <body>
@@ -108,6 +109,37 @@
         <div class="row">
             <div class="col-12 text-right">合計金額:{{totalcost}}</div>
         </div>
+        <h4>highcharts</h4>
+        <div id="container"></div>
+        <script>
+            $(window).on('load', () => {
+                $('$container').highcharts({
+                    chart: {
+                        type: "column",
+                    },
+                    title: {
+                        text: "家計簿"
+                    },
+                    subtitle: {
+                        text: ""
+                    },
+                    xAxis: {
+                        categories: ['収入', '支出']
+                    },
+                    series: [
+                        {
+                            name: "収入",
+                            data: [100]
+                        },
+                        {
+                            name: "支出",
+                            data: [200]
+                        }
+                    ]
+                })
+
+            })
+        </script>
         <a href="/">index.htmlへ</a>
 </body>
 
