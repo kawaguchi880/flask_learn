@@ -27,24 +27,25 @@
 
         <form method="post">
             {{data.form.csrf_token}}
-            <input type="text" name="message"/>
-            <input type="submit" value="つぶやく"/>
+            <input type="text" name="message" />
+            <input type="submit" value="つぶやく" />
         </form>
 
 
         {% for kweet in data.kweetList %}
         <hr />
         {{kweet.message}}<br\>
-        {%endfor%}
-        <div>
-            <a href="/page2">page2へ</a>
-            <a href="/study">study</a>
-            <a href="/application1">application1</a>
-            <a href="/application2">application2</a>
-            <a href="/application3">application3</a>
-            <a href="/reserve">reserve</a>
-            <a href="/kakeibo">kakeibo</a>
-        </div>
+            {%endfor%}
+            <div>
+                <a href="/page2">page2へ</a>
+                <a href="/study">study</a>
+                <a href="/application1">application1</a>
+                <a href="/application2">application2</a>
+                <a href="/application3">application3</a>
+                <a href="/reserve">reserve</a>
+                <a href="/kakeibo">kakeibo</a>
+                <a href="/map">map</a>
+            </div>
     </div>
 </body>
 

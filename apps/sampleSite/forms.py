@@ -26,3 +26,6 @@ class KakeiboForm(FlaskForm):
     budget = StringField()
     item = StringField()
     cost = IntegerField()
+
+class kakeiboDelectionForm(FlaskForm):
+    item_id = IntegerField()
