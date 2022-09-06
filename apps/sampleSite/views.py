@@ -1,6 +1,6 @@
 from random import sample
-from flask import Blueprint, render_template
-from apps.sampleSite.forms import KweetForm,jankennForm,taipinnguForm,ReserveForm,KakeiboForm
+from flask import Blueprint, render_template,redirect
+from apps.sampleSite.forms import KweetForm,jankennForm,taipinnguForm,ReserveForm,KakeiboForm,kakeiboDelectionForm
 from apps.sampleSite.models import Kweet,Reserve,Kakeibo
 from apps.app import db
 import random
@@ -75,37 +75,55 @@ def reserveList():
 
 @sampleSite.route('/kakeibo',methods=["GET","POST"])
 def kakeibo():
-    sum=0
     kakeiboForm = KakeiboForm()
     kakeiboed=False
+    totalcost=False
     kakeiboList={}
     print("aaaa")
 
-    if kakeiboForm.is_submitted():
-        date = kakeiboForm.date.data
-        budget = kakeiboForm.budget.data
-        item = kakeiboForm.item.data
-        cost = kakeiboForm.cost.data
-        if (budget=="on"):
-            budget="支出"
-        print("aaa")
-        print(date)
-        print(budget)
-        print(item)
-        print(cost)
+    # if kakeiboForm.is_submitted():
+    date = kakeiboForm.date.data
+    budget = kakeiboForm.budget.data
+    item = kakeiboForm.item.data
+    cost = kakeiboForm.cost.data
+    if (budget=="on"):
+        budget="支出"
+    elif(budget is None):
+        budget="入力なし"
+    print("aaa")
+    print(date)
+    print(budget)
+    print(item)
+    print(cost)
 
-        kakeibo = Kakeibo(
-            date=date,
-            budget=budget,
-            item = item,
-            cost=cost
-        )
+    kakeibo = Kakeibo(
+        date=date,
+        budget=budget,
+        item = item,
+        cost=cost
+    )
 
-        db.session.add(kakeibo)
-        db.session.commit()
-        kakeiboList = kakeibo.query.all()
-    return render_template("kakeibo.html",form=kakeiboForm,kakeiboed=kakeiboed,kakeiboList=kakeiboList)
+    db.session.add(kakeibo)
+    db.session.commit()
+    kakeiboList = kakeibo.query.all()
+    totalcost=0
+    for kakeibo in kakeiboList:
+        if kakeibo.cost is None:
+            print(kakeibo.cost)
+        else:
+            totalcost +=kakeibo.cost
+    return render_template("kakeibo.html",form=kakeiboForm,kakeiboed=kakeiboed,kakeiboList=kakeiboList,totalcost=totalcost)
 
+@sampleSite.route('/kakeiboDelection',methods=["POST"])
+def kakeiboDelection():
+    kakeiboDelection = kakeiboDelectionForm()
+    item_id = kakeiboDelection.item_id.data
+    print("item_id")
+    print(item_id)
+    item = db.session.query(Kakeibo).filter(Kakeibo.id == item_id).one()
+    db.session.delete(item)
+    db.session.commit()
+    return redirect("/kakeibo")
 
 @sampleSite.route('/application1')
 def app1():
@@ -172,6 +190,14 @@ def app3():
         "score":score
     }
     return render_template("application3.html",data=dbData)
+
+
+
+@sampleSite.route('/map')
+def map():
+    return render_template("map.html")
+
+
 @sampleSite.route('/study')
 def study():
     # 標準出力で表示
